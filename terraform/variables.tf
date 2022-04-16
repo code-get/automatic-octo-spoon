@@ -4,3 +4,8 @@ variable "key_pair_filename" {
   type        = string
 }
 
+variable "domain_name" {
+  description = "The domain name mydomain.com"
+  type        = string
+}
+
