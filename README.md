@@ -21,12 +21,6 @@ terraform plan -out=terraform-plan
 terraform apply terraform-plan
 ```
 
-## DNS
-
-TODO: Automate
-
-Currently DNS is configured manually via [Route53](https://us-east-1.console.aws.amazon.com/route53/v2/home#Dashboard)
-
 ## Configure
 
 To configure the K3s Cluster Nodes run the following Ansible Playbooks

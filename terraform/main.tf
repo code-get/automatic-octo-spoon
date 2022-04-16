@@ -9,6 +9,14 @@ module "kube-controller" {
   private_key        = data.local_file.key_pair_file.content
 }
 
+resource "aws_route53_record" "kube-controller" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "kubectl.${var.domain_name}"
+  type    = "A"
+  ttl     = "300"
+  records = [module.kube-controller.public_ip_address]
+}
+
 module "kube-worker" {
   count = 3 # three nodes
   source = "./modules/node"
@@ -18,6 +26,15 @@ module "kube-worker" {
  
   provisioner_script = "./scripts/init.sh"
   private_key        = data.local_file.key_pair_file.content
+}
+
+resource "aws_route53_record" "kube-worker" {
+  count   = 3 
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "worker${count.index}.${var.domain_name}"
+  type    = "A"
+  ttl     = "300"
+  records = [module.kube-worker[count.index].public_ip_address]
 }
 
 resource "aws_lightsail_instance_public_ports" "connect-worker" {
