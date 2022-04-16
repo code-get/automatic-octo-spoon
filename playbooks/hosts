@@ -1,0 +1,6 @@
+[controller]
+kubectl.code-get.com 
+
+[workers]
+worker[0:2].code-get.com
+

@@ -1,0 +1,7 @@
+---
+- name: Healthcheck K3s Cluster
+  hosts: all
+  tasks:
+    - name: Ping host
+      ansible.builtin.ping:
+

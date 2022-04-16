@@ -1,0 +1,9 @@
+---
+- name: Set K3s Cluster Hostnames
+  hosts: all
+  tasks:
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname | replace('.code-get.com','') }}"
+      become: yes
+
