@@ -4,3 +4,5 @@ kubectl.code-get.com
 [workers]
 worker[0:2].code-get.com
 
+[nfs]
+nfs0.code-get.com

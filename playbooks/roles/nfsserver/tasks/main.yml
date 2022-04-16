@@ -1,0 +1,22 @@
+---
+- name: Install nfs
+  ansible.builtin.package:
+    name: nfs-kernel-server
+    state: present
+  become: yes
+
+- name: Set Perms to Nobody
+  ansible.builtin.file:
+    name: /mnt/data
+    owner: nobody
+    group: nogroup
+  become: yes
+
+- name: Configure Exports
+  ansible.builtin.lineinfile:
+    path: /etc/exports
+    line: /mnt/data *(rw,sync,no_subtree_check)
+    state: present
+  notify: nfs
+  become: yes
+

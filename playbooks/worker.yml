@@ -16,3 +16,10 @@
     - name: Results
       ansible.builtin.debug:
         var: result.stdout_lines
+
+    - name: Install NFS Client
+      ansible.builtin.package:
+        name: nfs-common
+        state: present
+      become: yes
+

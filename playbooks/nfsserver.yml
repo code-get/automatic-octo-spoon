@@ -1,0 +1,7 @@
+---
+- name: Configure NFS Server Storage
+  hosts: nfs
+  roles:
+    - mountxfs  
+    - nfsserver
+

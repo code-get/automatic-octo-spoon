@@ -1,0 +1,31 @@
+---
+- vars:
+  name: Configure new Mount
+  community.general.filesystem:
+    fstype: xfs
+    dev: "{{ device_path }}"
+  become: yes
+
+- name: Find UUID
+  shell: |
+   blkid "{{ device_path }}" -sUUID -ovalue
+  register: disk_uuid
+  changed_when: disk_uuid.rc == 0
+  failed_when: disk_uuid.rc != 0
+  become: yes
+
+- name: Make Disk Mount Directory
+  ansible.builtin.file:
+    path: "{{ disk_mount_path }}"
+    state: directory
+  become: yes
+
+- name: Mount Disk
+  ansible.posix.mount:
+    path: "{{ disk_mount_path }}"
+    src: "UUID={{ disk_uuid.stdout }}"
+    fstype: xfs
+    state: mounted
+  notify: daemon-reload
+  become: yes
+
