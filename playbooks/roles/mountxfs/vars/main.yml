@@ -1,0 +1,4 @@
+---
+device_path: /dev/xvdf
+disk_mount_path: /mnt/data
+

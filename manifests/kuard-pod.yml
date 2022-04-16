@@ -6,8 +6,9 @@ metadata:
 spec:
   volumes:
     - name: "kuard-data"
-      hostPath:
-        path: "var/lib/kuard"
+      nfs:
+        server: nfs0.code-get.com
+        path: /mnt/data
   containers:
     - image: gcr.io/kuar-demo/kuard-amd64:1
       name: kuard
