@@ -1,0 +1,25 @@
+---    
+- name: Install Packages
+  ansible.builtin.package:
+    name: "{{ packages }}"
+    state: present
+
+- name: dpkg-reconfigure -f noninteractive unattended-upgrades
+  ansible.builtin.command:
+    cmd: dpkg-reconfigure -f noninteractive unattended-upgrades
+  register: result
+  failed_when: result.rc != 0
+  changed_when: result.rc == 0
+
+- name: 
+  ansible.builtin.template:
+    src: 50auto-upgrades
+    dest: /etc/apt/apt.conf.d/50auto-upgrades
+
+#- name: Set Unattended Mail
+#  ansible.builtin.lineinfile:
+#    path: /etc/apt/listchanges.conf
+#    regexp: '^email_address='
+#    line: 'email_address={{ alert_email }}'
+#    state: present
+

@@ -1,0 +1,6 @@
+---
+packages:
+  - unattended-upgrades
+  - apt-listchanges
+  - bsd-mailx
+ 

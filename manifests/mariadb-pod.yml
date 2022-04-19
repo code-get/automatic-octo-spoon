@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wordpressdb
+spec:
+  volumes:
+    - name: "wordpressdb-data"
+      nfs:
+        server: nfs0.code-get.com
+        path: /mnt/data
+  containers:
+    - image: mariadb:latest
+      name: kuard
+      env:
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: wordpressdb-secrets
+              key: username
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpressdb-secrets
+              key: password
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpressdb-secrets
+              key: rootpassword
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+      volumeMounts:
+        - name: "wordpressdb-data"
+          mountPath: "/data"
+      ports:
+        - containerPort: 3306
+          name: http
+          protocol: TCP
+

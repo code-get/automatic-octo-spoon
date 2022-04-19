@@ -1,0 +1,6 @@
+---
+- name: Configure Auto Update
+  hosts: all
+  roles:
+    - autoupdate
+

@@ -1,0 +1,30 @@
+---
+- name: Update K3s Cluster
+  hosts: all
+  become: yes
+  tasks:
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: apt upgrade
+      ansible.builtin.apt:
+        upgrade: dist
+        force_apt_get: yes
+
+    - name: Check if Reboot Required
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required_file
+
+    - name: Reboot
+      reboot:
+        msg: 'Reboot'
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists
+
